@@ -6,37 +6,27 @@ end)
 
 RegisterServerEvent('esx-sopletare:getItem')
 AddEventHandler('esx-sopletare:getItem', function()
-    local src = source
-    local xPlayer = ESX.GetPlayerFromId(src)
 
-    local luck = math.random(0, 20)
-    local randomLure = math.random(5)
-    local randomBandage = math.random(3)
-    local randomMembership = math.random(1)
-    local randomBread = math.random(2)
-    local randomCoupon = math.random(1)
+    local luck = math.random(1, 3)
 
-    if luck == 2 then
-        xPlayer.addInventoryItem('fishing_lure', randomLure)
-        TriggerClientEvent('esx:showNotification', src, 'Du hittade ' .. randomLure .. ' fiskebete')
+    if luck == 1 then
 
-    elseif luck == 5 then
-        xPlayer.addInventoryItem('bandage', randomBandage)
-        TriggerClientEvent('esx:showNotification', src, 'Du hittade ' .. randomBandage .. ' bandage')
+        local items = { -- add whatever items you want here
+            'fishing_lure',
+            'bandage',
+            'weed_pooch',
+            'bread',
+            'lotteryticket'
+        }
 
-    elseif luck == 8 then
-        xPlayer.addInventoryItem('gym_membership', randomMembership)
-        TriggerClientEvent('esx:showNotification', src, 'Du hittade ' .. randomMembership .. ' träningskort')
+        local xPlayer = ESX.GetPlayerFromId(source)
+        local randomItems = items[math.random(#items)]
+        local quantity = math.random(#items)
+        local itemfound = ESX.GetItemLabel(randomItems)
 
-    elseif luck == 13 then
-        xPlayer.addInventoryItem('bread', randomBread)
-        TriggerClientEvent('esx:showNotification', src, 'Du hittade ' .. randomBread .. ' bröd')
-
-    elseif luck == 17 then
-        xPlayer.addInventoryItem('lotteryticket', randomCoupon)
-        TriggerClientEvent('esx:showNotification', src, 'Du hittade ' .. randomCoupon .. ' skraplott')
-
+        xPlayer.addInventoryItem(randomItems, quantity)
+        TriggerClientEvent('esx:showNotification', source, 'Du hittade ' .. quantity .. ' st ' .. itemfound)
     else
-        TriggerClientEvent('esx:showNotification', src, 'Du hittade ingenting, skaffa dig ett jobb kanske?')
+        TriggerClientEvent('esx:showNotification', source, 'Du hittade ingenting, skaffa dig ett jobb kanske?')
     end
 end)
